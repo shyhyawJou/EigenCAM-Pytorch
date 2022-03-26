@@ -4,7 +4,7 @@ The implementation of [EigenCAM](https://arxiv.org/abs/2008.00299) for getting t
 # Usage
 My code is very easy to use
 
-### step 1: create the GradCAM object and model
+### step 1: create the EigenCAM object and model
 ```
 model = your_pytorch_model
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu") 
