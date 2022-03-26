@@ -6,8 +6,10 @@ My code is very easy to use
 
 ### step 1: create the EigenCAM object and model
 if `layer_for_cam` is None, my code will use the last layer in front of last global average pooling layer. Default is None.  
-if there is no global average pooling layer in your model, remember to specify the `layer_for_cam`(string).
   
+if there is no global average pooling layer in your model, remember to specify the `layer_for_cam`(string).  
+  
+you can see every layer name of your model by `print(your_torch_model)` 
 ```
 model = your_pytorch_model
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu") 
