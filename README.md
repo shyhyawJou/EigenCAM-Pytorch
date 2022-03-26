@@ -23,7 +23,7 @@ overlay.show() # show the heatmap
 ```
 from PIL import Image
 
-import toch
+import torch
 from torchvision import transfoms as T
 
 from visualization import EigenCAM
