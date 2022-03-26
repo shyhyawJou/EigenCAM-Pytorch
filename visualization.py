@@ -9,8 +9,12 @@ import numpy as np
 
 
 class EigenCAM():
-    def __init__(self, model, device):
-        layerName = self.get_layer_name(model)
+    def __init__(self, model, device, layer_for_cam=None):
+        if layer_for_cam is None:
+            layerName = self.get_layer_name(model)
+        else:
+            layerName = layer_for_cam
+
         for name, layer in model.named_children():
             if name == layerName:
                 layer.register_forward_hook(self.forward_hook)
