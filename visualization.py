@@ -36,7 +36,8 @@ class EigenCAM():
             s = s[..., None]
             cam = u[..., :, :1] @ s[..., :1, :] @ v[..., :1, :]
             cam = cam.sum(1)
-            cam = (cam - cam.min()) / (cam.max() - cam.min()) * 255
+            F.relu(cam, True)
+            cam = cam / cam.max() * 255
             cam = cam.to(dtype=torch.uint8, device="cpu")
             cam = cam.numpy().transpose(1,2,0)
             cam = cv.resize(cam, img.size[:2], interpolation=4)
