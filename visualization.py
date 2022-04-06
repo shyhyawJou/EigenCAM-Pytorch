@@ -8,15 +8,17 @@ import numpy as np
 
 
 
-class EigenCAM():
-    def __init__(self, model, device, layer_for_cam=None):
-        if layer_for_cam is None:
-            layerName = self.get_layer_name(model)
-        else:
-            layerName = layer_for_cam
+class EigenCAM:
+    """
+    #### Args:
+        layer_name: module name (not child name)
+    """
+    def __init__(self, model, device, layer_name=None):
+        if layer_name is None:
+            layer_name = self.get_layer_name(model)
 
-        for name, layer in model.named_children():
-            if name == layerName:
+        for name, layer in model.named_modules():
+            if name == layer_name:
                 layer.register_forward_hook(self.forward_hook)
                 break
 
@@ -55,12 +57,12 @@ class EigenCAM():
         return output, overlay
 
     def get_layer_name(self, model):
-        for n, m in model.named_children():
-            # AdaptiveAvgPool2d or nn.AvgPool2d
+        tmp = None
+        for n, m in model.named_modules():
             if isinstance(m, (nn.AdaptiveAvgPool2d, nn.AvgPool2d)):
-                name = tmp
+                layer_name = tmp
             tmp = n
-        return name
+        return layer_name
 
     def forward_hook(self, module, x, y):
         #self.feature_maps["input"] = x
