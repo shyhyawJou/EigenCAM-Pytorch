@@ -16,6 +16,11 @@ class EigenCAM:
     def __init__(self, model, device, layer_name=None):
         if layer_name is None:
             layer_name = self.get_layer_name(model)
+        
+        if layer_name is None:
+            raise ValueError(
+                "There is no global average pooling layer, plz splecify 'layer_name'"
+            )
 
         for name, layer in model.named_modules():
             if name == layer_name:
@@ -57,7 +62,7 @@ class EigenCAM:
         return output, overlay
 
     def get_layer_name(self, model):
-        tmp = None
+        layer_name = None
         for n, m in model.named_modules():
             if isinstance(m, (nn.AdaptiveAvgPool2d, nn.AvgPool2d)):
                 layer_name = tmp
