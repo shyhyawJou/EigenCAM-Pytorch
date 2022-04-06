@@ -4,15 +4,15 @@ The implementation of [EigenCAM](https://arxiv.org/abs/2008.00299) for getting t
 # Usage
 My code is very easy to use
 
-* __step 1: create the EigenCAM object and model__
-  - If there is no global average pooling layer in your model, remember to       specify the `layer_name`
+### step 1: create the EigenCAM object and model
+
 ```
 model = your_pytorch_model
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu") 
 eigencam = EigenCAM(model, device, layer_name=None)
 ```  
 
-* __step 2: get the heatmap__
+### step 2: get the heatmap
 ```
 preprocess = your_preprocess
 img = Image.open(img_path)  
