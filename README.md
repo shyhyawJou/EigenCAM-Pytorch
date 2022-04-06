@@ -4,18 +4,15 @@ The implementation of [EigenCAM](https://arxiv.org/abs/2008.00299) for getting t
 # Usage
 My code is very easy to use
 
-### step 1: create the EigenCAM object and model
-if `layer_for_cam` is None, my code will use the last layer in front of last global average pooling layer. Default is None.  
-  
-if there is no global average pooling layer in your model, remember to specify the `layer_for_cam`(string).  
-  
-you can see every layer name of your model by `print(your_torch_model)` 
+* step 1: create the EigenCAM object and model
+  - If there is no global average pooling layer in your model, remember to       specify the `layer_name`
 ```
 model = your_pytorch_model
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu") 
-eigencam = EigenCAM(model, device, layer_for_cam=None)
-```
-### step 2: get the heatmap
+eigencam = EigenCAM(model, device, layer_name=None)
+```  
+
+* step 2: get the heatmap
 ```
 preprocess = your_preprocess
 img = Image.open(img_path)  
@@ -40,18 +37,21 @@ preprocess = T.Compose([
                         T.ToTensor()
                        ])  
 
-eigencam = EigenCAM(model, device) # create the GradCAM object  
+# create the GradCAM object 
+eigencam = EigenCAM(model, device)  
 
 img = Image.open(img_path)  
 img_tensor = preprocess(img).unsqueeze_(0).to(device)  
 outputs, overlay = eigencam.get_heatmap(img, img_tensor)
 _, pred_label = outputs.max(1)
 pred_class = class_name[pred_label.item()]
-probability = F.softmax(outputs, 1).squeeze()[pred_label]
+conf = F.softmax(outputs, 1).squeeze()[pred_label]
 
 print("Result:", pred_class)
-print("Probability:", probability)
-overlay.show() # show the heatmap
+print("Confidence:", conf)
+
+# show the heatmap
+overlay.show() 
 ```
 
 # Reference
