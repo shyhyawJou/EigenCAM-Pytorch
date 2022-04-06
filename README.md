@@ -9,7 +9,7 @@ My code is very easy to use
 ```
 model = your_pytorch_model
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu") 
-eigencam = EigenCAM(model, device, layer_name=None)
+eigencam = EigenCAM(model, device)
 ```  
 
 ### step 2: get the heatmap
@@ -37,7 +37,7 @@ preprocess = T.Compose([
                         T.ToTensor()
                        ])  
 
-# create the GradCAM object 
+# create the EigenCAM object 
 eigencam = EigenCAM(model, device)  
 
 img = Image.open(img_path)  
