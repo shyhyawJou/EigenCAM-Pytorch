@@ -21,7 +21,9 @@ class EigenCAM:
             raise ValueError(
                 "There is no global average pooling layer, plz splecify 'layer_name'"
             )
-
+        
+        print(f"Use the output of {layer_name} for plot heat map")
+        
         for name, layer in model.named_modules():
             if name == layer_name:
                 layer.register_forward_hook(self.forward_hook)
