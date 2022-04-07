@@ -22,7 +22,7 @@ class EigenCAM:
         
         if layer_name is None:
             raise ValueError(
-                "There is no global average pooling layer, plz splecify 'layer_name'"
+                "There is no global average pooling layer, plz specify 'layer_name'"
             )
         
         print(f"Use the output of {layer_name} for plot heat map")
