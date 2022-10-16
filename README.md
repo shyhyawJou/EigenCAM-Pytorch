@@ -1,59 +1,25 @@
 # Overview
-The implementation of [EigenCAM](https://arxiv.org/abs/2008.00299) for getting the attention map of CNN
+The implementation of [Eigen-CAM](https://arxiv.org/ftp/arxiv/papers/2008/2008.00299.pdf)
+
+# Example
+![](assets/n01669191_46.JPEG)
+![](assets/heatmap.jpg)
 
 # Usage
-My code is very easy to use
-
-### step 1: create the EigenCAM object and model
-
+- The example image is generate from mobilenetv2:  
 ```
-model = your_pytorch_model
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu") 
-eigencam = EigenCAM(model, device)
-```  
-
-### step 2: get the heatmap
-```
-preprocess = your_preprocess
-img = Image.open(img_path)  
-img_tensor = preprocess(img).unsqueeze_(0).to(device)  
-outputs, overlay = eigencam.get_heatmap(img, img_tensor)
-overlay.show() # show the heatmap
+python show.py -d cpu -img assets/n01669191_46.JPEG -layer features.18.0
 ```
 
-# Complete Example
+- for custom model  
 ```
-from PIL import Image
-
-import torch
-from torchvision import transfoms as T
-
-from visualization import EigenCAM
-
-
-class_name = ['Class A', 'Class B']
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")  
-preprocess = T.Compose([
-                        T.ToTensor()
-                       ])  
-
-# create the EigenCAM object 
-eigencam = EigenCAM(model, device)  
-
-img = Image.open(img_path)  
-img_tensor = preprocess(img).unsqueeze_(0).to(device)  
-outputs, overlay = eigencam.get_heatmap(img, img_tensor)
-_, pred_label = outputs.max(1)
-pred_class = class_name[pred_label.item()]
-conf = F.softmax(outputs, 1).squeeze()[pred_label]
-
-print("Result:", pred_class)
-print("Confidence:", conf)
-
-# show the heatmap
-overlay.show() 
+python show.py -d cpu -img assets/n01669191_46.JPEG -layer {layer name} -m {your model path}
 ```
+- Get predict label  
+  Very easy, you can refer to `show.py`.
+  
+# Note
+- Remenber to check whether the image preprocess is the same as yours, if not, you should alert the preprocess in the `show.py` or the result will be wrong.
+- If you have cuda, you can just replace the "cpu" to "cuda".
+- If you don't specify any layer, my code will use the last layer before global average pooling  to plot heatmap.
 
-# Reference
-Original paper:  
-[Eigen-CAM: Class Activation Map using Principal Components](https://arxiv.org/abs/2008.00299)  
