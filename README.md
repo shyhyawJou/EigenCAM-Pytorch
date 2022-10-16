@@ -12,6 +12,7 @@ python show.py -d cpu -img assets/n01669191_46.JPEG -layer features.18.0
 ```
 
 - for custom model  
+model path is a file including weight and architecture.
 ```
 python show.py -d cpu -img assets/n01669191_46.JPEG -layer {layer name} -m {your model path}
 ```
