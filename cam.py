@@ -61,6 +61,11 @@ class CAM:
         else:
             raise ValueError(f'There is no layer named "{self.layer_name}" in the model')
 
+    def check(self, feature):
+        if feature.ndim != 4 or feature.shape[2] * feature.shape[3] == 1:
+            raise ValueError(f'Got invalid shape of feature map: {feature.shape}, '
+                              'please specify another layer to plot heatmap.') 
+
 
 
 class EigenCAM(CAM):
@@ -72,6 +77,7 @@ class EigenCAM(CAM):
             tensor = self.prep(img)[None, ...].to(self.device)
             output = self.model(tensor)
             feature = self.feature['output']
+            self.check(feature)
             
             _, _, vT = torch.linalg.svd(feature)
             v1 = vT[:, :, 0, :][..., None, :]

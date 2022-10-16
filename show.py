@@ -51,7 +51,7 @@ def main():
     output, overlay = cam_obj.get_heatmap(img)
     print('\nPredict label:', output.max(1)[1].item())
     
-    Image.fromarray(overlay).save('heatmap.jpg')
+    Image.fromarray(overlay).show()
 
 
 
