@@ -17,7 +17,8 @@ model path is a file including weight and architecture.
 python show.py -d cpu -img assets/n01669191_46.JPEG -layer {layer name} -m {your model path}
 ```
 - Get predict label  
-  Very easy, you can refer to `show.py`.
+  My program will print the predict label, you can refer to `show.py`.  
+  For imagenet label to class name, you can refer to [class id to name](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a).
   
 # Note
 - Remenber to check whether the image preprocess is the same as yours, if not, you should alert the preprocess in the `show.py` or the result will be wrong.
