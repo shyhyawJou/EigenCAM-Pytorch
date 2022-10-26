@@ -23,5 +23,6 @@ python show.py -d cpu -img assets/n01669191_46.JPEG -layer {layer name} -m {your
 # Note
 - Remenber to check whether the image preprocess is the same as yours, if not, you should alert the preprocess in the `show.py` or the result will be wrong.
 - If you have cuda, you can just replace the "cpu" to "cuda".
-- If you don't specify any layer, my code will use the last layer before global average pooling  to plot heatmap.
+- If you don't specify any layer, my code will use the last layer before global average pooling  to plot heatmap. 
+- Generally, the layer is deeper, the interpretaton is better.
 
