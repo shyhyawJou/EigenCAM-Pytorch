@@ -22,12 +22,12 @@ class CAM:
         self.prep = preprocess
         self.feature = {}
 
-        self.register_hook()
+        self._register_hook()
         
     def get_heatmap(self, img):
         pass
                                          
-    def get_layer_name(self, model):
+    def _get_layer_name(self, model):
         layer_name = None
 
         for name, module in model.named_modules():
@@ -49,18 +49,18 @@ class CAM:
 
         return layer_name
 
-    def forward_hook(self, module, x, y):
+    def _forward_hook(self, module, x, y):
         self.feature['output'] = y
 
-    def register_hook(self):
+    def _register_hook(self):
         for name, module in self.model.named_modules():
             if name == self.layer_name:
-                module.register_forward_hook(self.forward_hook)
+                module.register_forward_hook(self._forward_hook)
                 break
         else:
             raise ValueError(f'There is no layer named "{self.layer_name}" in the model')
 
-    def check(self, feature):
+    def _check(self, feature):
         if feature.ndim != 4 or feature.shape[2] * feature.shape[3] == 1:
             raise ValueError(f'Got invalid shape of feature map: {feature.shape}, '
                               'please specify another layer to plot heatmap.') 
@@ -76,7 +76,7 @@ class EigenCAM(CAM):
             tensor = self.prep(img)[None, ...].to(self.device)
             output = self.model(tensor)
             feature = self.feature['output']
-            self.check(feature)
+            self._check(feature)
             
             _, _, vT = torch.linalg.svd(feature)
             v1 = vT[:, :, 0, :][..., None, :]
