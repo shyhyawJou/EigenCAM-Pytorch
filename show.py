@@ -39,6 +39,7 @@ def main():
         model = mobilenet_v2(True).eval()
     else:
         model = torch.load(arg.m).eval()
+    print(model)
     
     cam_obj = EigenCAM(model, arg.d, preprocess, arg.layer)
     
