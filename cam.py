@@ -13,7 +13,7 @@ class CAM:
     '''
     def __init__(self, model, device, preprocess, layer_name=None):  
         if layer_name is None:
-            self.layer_name = self.get_layer_name(model) 
+            self.layer_name = self._get_layer_name(model) 
         else:
             self.layer_name = layer_name
             
