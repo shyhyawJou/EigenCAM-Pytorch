@@ -91,12 +91,8 @@ class EigenCAM(CAM):
 
             if not isinstance(img, np.ndarray):
                 img = np.asarray(img)
-            img_size = img.shape[:2][::-1] # w, h
 
             overlay = np.uint8(0.6 * img + 0.4 * cam)
-
-            if overlay.size != img_size:
-                overlay = cv2.resize(overlay, img_size)
 
         return output, overlay
     
