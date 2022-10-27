@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from torch.nn import functional as F
 
 import cv2
 import numpy as np
@@ -81,13 +80,14 @@ class EigenCAM(CAM):
             
             _, _, vT = torch.linalg.svd(feature)
             v1 = vT[:, :, 0, :][..., None, :]
+            
             cam = feature @ v1.repeat(1, 1, v1.shape[3], 1)
             cam = cam.sum(1)
             cam -= cam.min()
             cam = cam / cam.max() * 255
             cam = cam.cpu().numpy().transpose(1, 2, 0).astype(np.uint8)
-            cam = cv2.resize(cam, img.size[:2])
-            cam = cv2.applyColorMap(cam, cv2.COLORMAP_JET)           
+            cam = cv2.resize(cam, img.size)
+            cam = cv2.applyColorMap(cam, cv2.COLORMAP_JET)        
 
             if not isinstance(img, np.ndarray):
                 img = np.asarray(img)
@@ -100,4 +100,3 @@ class EigenCAM(CAM):
 
         return output, overlay
     
-
