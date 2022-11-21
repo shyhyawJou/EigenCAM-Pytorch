@@ -17,7 +17,7 @@ class CAM:
         else:
             self.layer_name = layer_name
             
-        self.model = model.to(device)
+        self.model = model.eval().to(device)
         self.device = device
         self.prep = preprocess
         self.feature = {}
